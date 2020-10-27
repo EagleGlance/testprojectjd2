@@ -1,6 +1,8 @@
 package com.noirix.util;
 
 import com.noirix.domain.Car;
+import com.noirix.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -33,5 +35,15 @@ public class ApplicationBeans {
                 .price(160000D)
                 .year(2020)
                 .build();
+    }
+
+    @Bean
+    public User user1(Car car) {
+        return new User(car);
+    }
+
+    @Bean
+    public User user2(Car car) {
+        return new User(car);
     }
 }
