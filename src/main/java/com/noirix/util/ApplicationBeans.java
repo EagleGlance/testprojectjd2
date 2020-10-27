@@ -1,49 +1,36 @@
 package com.noirix.util;
 
-import com.noirix.domain.Car;
-import com.noirix.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+
+import javax.sql.DataSource;
 
 @Configuration
 public class ApplicationBeans {
 
     @Bean
-    //@Scope("singleton")
-    //@Scope("prototype")
-    //@Scope("session")
-    //@Scope("global-session")
-    //@Scope("request")
-    public Car car1() {
-        return Car.builder()
-                .id(1L)
-                .model("Tesla Model S")
-                .price(110000D)
-                .year(2019)
-                .build();
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 
     @Bean
-    @Primary
-    public Car car2() {
-        return Car.builder()
-                .id(2L)
-                .model("Tesla Model X")
-                .price(160000D)
-                .year(2020)
-                .build();
+    public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
     }
 
     @Bean
-    public User user1(Car car) {
-        return new User(car);
-    }
+    public DataSource hikariDatasource(DatabaseConfig databaseConfig) {
+        HikariDataSource hikariDataSource = new HikariDataSource();
 
-    @Bean
-    public User user2(Car car) {
-        return new User(car);
+        hikariDataSource.setJdbcUrl(databaseConfig.getUrl());
+        hikariDataSource.setUsername(databaseConfig.getLogin());
+        hikariDataSource.setPassword(databaseConfig.getPassword());
+        hikariDataSource.setDriverClassName(databaseConfig.getDriverName());
+        hikariDataSource.setMaximumPoolSize(10);
+
+        return hikariDataSource;
     }
 }
