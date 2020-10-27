@@ -4,7 +4,9 @@ import com.noirix.domain.Gender;
 import com.noirix.domain.User;
 import com.noirix.exception.EntityNotFoundException;
 import com.noirix.repository.UserRepository;
+import com.noirix.util.DatabaseConfig;
 import com.noirix.util.DatabasePropertiesReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;
@@ -234,7 +236,7 @@ public class UserRepositoryImpl implements UserRepository {
             statement.setLong(1, user.getId());
 
             int deletedRows = statement.executeUpdate();
-            return (long)deletedRows;
+            return (long) deletedRows;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new RuntimeException("SQL Issues!");

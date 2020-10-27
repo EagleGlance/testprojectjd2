@@ -4,17 +4,34 @@ import com.noirix.domain.Car;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class ApplicationBeans {
 
     @Bean
-    public Car getCar() {
+    //@Scope("singleton")
+    //@Scope("prototype")
+    //@Scope("session")
+    //@Scope("global-session")
+    //@Scope("request")
+    public Car car1() {
         return Car.builder()
                 .id(1L)
                 .model("Tesla Model S")
                 .price(110000D)
                 .year(2019)
+                .build();
+    }
+
+    @Bean
+    @Primary
+    public Car car2() {
+        return Car.builder()
+                .id(2L)
+                .model("Tesla Model X")
+                .price(160000D)
+                .year(2020)
                 .build();
     }
 }

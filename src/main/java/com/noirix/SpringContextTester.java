@@ -19,33 +19,35 @@ public class SpringContextTester {
         System.out.println(user1.getId());
         System.out.println(user1.getName());
         System.out.println(user1.getSurname());
+        System.out.println(user1.getUserCar());
 
         System.out.println(user2.getId());
         System.out.println(user2.getName());
         System.out.println(user2.getSurname());
+        System.out.println(user2.getUserCar());
 
 
         System.out.println("******************************************");
-
-        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext("com.noirix");
-
-        DatabaseConfig bean = annotationConfigApplicationContext.getBean(DatabaseConfig.class);
-        System.out.println(bean.getLogin());
-        System.out.println(bean.getDriverName());
-        System.out.println(bean.getPassword());
-        System.out.println(bean.getUrl());
+//
+//        AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext("com.noirix");
+//
+//        DatabaseConfig bean = annotationConfigApplicationContext.getBean(DatabaseConfig.class);
+//        System.out.println(bean.getLogin());
+//        System.out.println(bean.getDriverName());
+//        System.out.println(bean.getPassword());
+//        System.out.println(bean.getUrl());
 /*        This is how to check available beans in context*/
 
 //        for (String beanDefinitionName : annotationConfigApplicationContext.getBeanDefinitionNames()) {
 //            System.out.println(beanDefinitionName);
 //        }
-
-        Car generatedCar = annotationConfigApplicationContext.getBean(Car.class);
-        System.out.println(generatedCar);
-
-
-        UserRepository userRepository = annotationConfigApplicationContext.getBean(UserRepository.class);
-
-        System.out.println(userRepository.findAll().stream().map(User::getName).collect(Collectors.joining(", ")));
+//
+//        Car generatedCar = annotationConfigApplicationContext.getBean(Car.class);
+//        System.out.println(generatedCar);
+//
+//
+//        UserRepository userRepository = annotationConfigApplicationContext.getBean(UserRepository.class);
+//
+//        System.out.println(userRepository.findAll().stream().map(User::getName).collect(Collectors.joining(", ")));
     }
 }
