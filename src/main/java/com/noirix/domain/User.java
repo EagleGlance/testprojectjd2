@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -51,12 +52,6 @@ public class User {
     @Autowired
     public User(Car userCar) {
         this.userCar = userCar;
-    }
-
-    public User(Long id, String name, String surname) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
     }
 
     @Override
