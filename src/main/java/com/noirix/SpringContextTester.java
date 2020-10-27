@@ -13,5 +13,7 @@ public class SpringContextTester {
         UserService userService = annotationConfigApplicationContext.getBean(UserService.class);
 
         System.out.println(userService.findAll().stream().map(User::getName).collect(Collectors.joining(", ")));
+
+        System.out.println(userService.findById(11L));
     }
 }
