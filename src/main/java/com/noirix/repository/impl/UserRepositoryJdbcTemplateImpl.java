@@ -8,11 +8,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Repository
@@ -29,12 +32,30 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     @Override
     public List<User> search(String query) {
-        return null;
+        return jdbcTemplate.query("select * from m_users where name like ?", new Object[]{query}, this::getUserRowMapper);
     }
 
     @Override
-    public User save(User object) {
-        return null;
+    public User save(User entity) {
+        final String createQuery = "insert into m_users (name, surname, birth_date, gender, created, changed, weight) " +
+                "values (:name, :surname, :birthDate, :gender, :created, :changed, :weight);";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", entity.getName());
+        params.addValue("surname", entity.getSurname());
+        params.addValue("birthDate", entity.getBirthDate());
+        params.addValue("gender", entity.getGender().name());
+        params.addValue("created", entity.getCreated());
+        params.addValue("changed", entity.getChanged());
+        params.addValue("weight", entity.getWeight());
+
+        namedParameterJdbcTemplate.update(createQuery, params, keyHolder, new String[]{"id"});
+
+        long createdUserId = Objects.requireNonNull(keyHolder.getKey()).longValue();
+
+        return findById(createdUserId);
     }
 
     @Override

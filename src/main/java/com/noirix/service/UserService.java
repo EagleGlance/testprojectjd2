@@ -11,4 +11,6 @@ public interface UserService {
     User save(User user);
 
     User findById(Long userId);
+
+    List<User> search(String query);
 }
