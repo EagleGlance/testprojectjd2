@@ -3,23 +3,33 @@ package com.noirix;
 import com.noirix.domain.Gender;
 import com.noirix.domain.User;
 import com.noirix.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
+//@Slf4j
 public class SpringContextTester {
+    private static final Logger log = Logger.getLogger(SpringContextTester.class);
+
     public static void main(String[] args) {
         AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext("com.noirix");
 
         UserService userService = annotationConfigApplicationContext.getBean(UserService.class);
 
-        System.out.println(userService.findAll().stream().map(User::getName).collect(Collectors.joining(", ")));
+        log.info(userService.findAll().stream().map(User::getName).collect(Collectors.joining(", ")));
 
-        System.out.println(userService.findById(11L));
-        System.out.println(userService.search("TestCreate"));
+        log.info(userService.findById(11L).toString());
 
+        List<User> testCreate = userService.search("TestCreate");
+
+        for (User user : testCreate) {
+            log.info(user.toString());
+        }
 
         User userForSave =
                 User.builder()
@@ -32,7 +42,7 @@ public class SpringContextTester {
                         .weight(90f)
                         .build();
 
-        System.out.println(userService.save(userForSave));
+        log.info(userService.save(userForSave).toString());
 
         //Add search method to service
         //Realise search method with JDBCTemplate or NamedParamJDBCTemplate

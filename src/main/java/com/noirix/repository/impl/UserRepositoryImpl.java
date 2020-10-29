@@ -7,6 +7,7 @@ import com.noirix.repository.UserColumns;
 import com.noirix.repository.UserRepository;
 import com.noirix.util.DatabaseConfig;
 import com.noirix.util.DatabasePropertiesReader;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +30,8 @@ import static com.noirix.util.DatabasePropertiesReader.DATABASE_URL;
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
+    private static final Logger log = Logger.getLogger(UserRepositoryImpl.class);
+
     public static final DatabasePropertiesReader reader = DatabasePropertiesReader.getInstance();
 
     @Override
@@ -47,7 +50,7 @@ public class UserRepositoryImpl implements UserRepository {
         try {
             Class.forName(reader.getProperty(DATABASE_DRIVER_NAME));
         } catch (ClassNotFoundException e) {
-            System.err.println("JDBC Driver Cannot be loaded!");
+            log.error("JDBC Driver Cannot be loaded!");
             throw new RuntimeException("JDBC Driver Cannot be loaded!");
         }
 
