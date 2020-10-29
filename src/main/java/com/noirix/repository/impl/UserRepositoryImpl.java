@@ -5,10 +5,8 @@ import com.noirix.domain.User;
 import com.noirix.exception.EntityNotFoundException;
 import com.noirix.repository.UserColumns;
 import com.noirix.repository.UserRepository;
-import com.noirix.util.DatabaseConfig;
 import com.noirix.util.DatabasePropertiesReader;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Connection;

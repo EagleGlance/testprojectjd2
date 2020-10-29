@@ -1,4 +1,4 @@
-package com.noirix.util;
+package com.noirix.config;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.context.annotation.Bean;
