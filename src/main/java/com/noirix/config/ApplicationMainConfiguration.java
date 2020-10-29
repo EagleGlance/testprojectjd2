@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan("com.noirix")
-//@EnableLoadTimeWeaving
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Import({DatabaseConfig.class, ApplicationBeans.class})
 public class ApplicationMainConfiguration {

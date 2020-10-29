@@ -11,7 +11,6 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Configuration
 @PropertySource("classpath:database.properties")
 //future bean name = databaseConfig
 public class DatabaseConfig {
