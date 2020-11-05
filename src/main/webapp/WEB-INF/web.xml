@@ -10,9 +10,9 @@
         <welcome-file>index.htm</welcome-file>
     </welcome-file-list>
 
-    <listener>
-        <listener-class>com.noirix.listener.CustomContextListener</listener-class>
-    </listener>
+<!--    <listener>-->
+<!--        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>-->
+<!--    </listener>-->
 
     <servlet>
         <servlet-name>MainServlet</servlet-name>
@@ -33,6 +33,15 @@
         <filter-name>AuthHeaderFilter</filter-name>
         <filter-class>com.noirix.filter.AuthHeaderFilter</filter-class>
     </filter>
+    
+<!--    <servlet>-->
+<!--        <servlet-name>CreateUserPage</servlet-name>-->
+<!--        <jsp-file>/WEB-INF/jsp/createuser.jsp</jsp-file>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>CreateUserPage</servlet-name>-->
+<!--        <url-pattern>/create-user</url-pattern>-->
+<!--    </servlet-mapping>-->
 
 <!--    Ordering in filter mapping defines which filter should be invoked firstly-->
     <filter-mapping>
