@@ -14,4 +14,6 @@ public class UserCreateRequest {
     private Date birthDate;
 
     private Gender gender = Gender.NOT_SELECTED;
+
+    private Float weight;
 }
