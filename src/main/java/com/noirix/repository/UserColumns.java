@@ -9,4 +9,6 @@ public interface UserColumns {
     String CREATED = "created";
     String CHANGED = "changed";
     String WEIGHT = "weight";
+    String LOGIN = "login";
+    String PASSWORD = "password";
 }

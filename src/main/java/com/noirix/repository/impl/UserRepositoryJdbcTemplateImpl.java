@@ -44,8 +44,8 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
 
     @Override
     public User save(User entity) {
-        final String createQuery = "insert into m_users (name, surname, birth_date, gender, created, changed, weight) " +
-                "values (:name, :surname, :birthDate, :gender, :created, :changed, :weight);";
+        final String createQuery = "insert into m_users (name, surname, birth_date, gender, created, changed, weight, login, password) " +
+                "values (:name, :surname, :birthDate, :gender, :created, :changed, :weight, :login, :password);";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -57,6 +57,8 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
         params.addValue("created", entity.getCreated());
         params.addValue("changed", entity.getChanged());
         params.addValue("weight", entity.getWeight());
+        params.addValue("login", entity.getLogin());
+        params.addValue("password", entity.getPassword());
 
         namedParameterJdbcTemplate.update(createQuery, params, keyHolder, new String[]{"id"});
 
@@ -80,6 +82,8 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
         user.setCreated(rs.getTimestamp(UserColumns.CREATED));
         user.setChanged(rs.getTimestamp(UserColumns.CHANGED));
         user.setWeight(rs.getFloat(UserColumns.WEIGHT));
+        user.setLogin(rs.getString(UserColumns.LOGIN));
+        user.setPassword(rs.getString(UserColumns.PASSWORD));
         return user;
     }
 
@@ -107,5 +111,10 @@ public class UserRepositoryJdbcTemplateImpl implements UserRepository {
     @Override
     public Long delete(User object) {
         return null;
+    }
+
+    @Override
+    public Optional<User> findByLogin(String login) {
+        return Optional.of(jdbcTemplate.queryForObject("select * from m_users where login = ?", new Object[]{login}, this::getUserRowMapper));
     }
 }

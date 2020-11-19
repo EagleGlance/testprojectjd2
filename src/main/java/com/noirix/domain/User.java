@@ -36,6 +36,10 @@ public class User {
 
     private Float weight;
 
+    private String login;
+
+    private String password;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.JSON_STYLE);
