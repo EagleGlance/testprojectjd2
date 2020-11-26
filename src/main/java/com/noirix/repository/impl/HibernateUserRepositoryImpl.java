@@ -26,12 +26,9 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
 
     @Override
     public List<HibernateUser> findAll() {
-
         try(Session session = sessionFactory.openSession()) {
-
+            return Collections.singletonList(session.find(HibernateUser.class, 6L));
         }
-
-        return Collections.emptyList();
     }
 
     @Override
