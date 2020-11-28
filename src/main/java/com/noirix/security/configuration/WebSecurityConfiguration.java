@@ -1,6 +1,5 @@
 package com.noirix.security.configuration;
 
-import com.noirix.security.util.TokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 @Configuration
@@ -27,15 +24,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userProvider;
 
-    private final TokenUtils tokenUtils;
-
-    private final NoOpPasswordEncoder noOpPasswordEncoder;
-
     @Autowired
-    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+    public void configureAuthentication(AuthenticationManagerBuilder authenticationManagerBuilder, PasswordEncoder passwordEncoder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(userProvider)
-        .passwordEncoder(noOpPasswordEncoder);
+                .passwordEncoder(passwordEncoder);
     }
 
 //    @Bean
@@ -63,9 +56,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 /*For swagger access only*/
-//                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
-//                .antMatchers("/actuator/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
+                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**").permitAll()
+                .antMatchers("/actuator/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/swagger-ui.html#").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/guest/**").permitAll()
                 .antMatchers("/registration/**").permitAll()
@@ -80,9 +73,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     //For swagger access only
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring()
-//                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/v2/api-docs", "/configuration/ui/**", "/swagger-resources/**", "/configuration/security/**", "/swagger-ui.html", "/webjars/**");
+    }
 }
