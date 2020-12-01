@@ -3,10 +3,8 @@ package com.noirix.controller;
 import com.noirix.controller.request.SearchCriteria;
 import com.noirix.controller.request.UserChangeRequest;
 import com.noirix.controller.request.UserCreateRequest;
-import com.noirix.domain.User;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
-import com.noirix.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,30 +25,27 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
-@RequestMapping("/rest/users")
+@RequestMapping("/rest/users/hibernate")
 @RequiredArgsConstructor
-public class UserRestController {
+public class UserHibernateController {
 
-    public final UserService userService;
     public final HibernateUserRepository hibernateUserRepository;
 
     @GetMapping
-    public ResponseEntity<List<User>> findAllUsers() {
-
-        //return ResponseEntity.ok(userService.findAll());
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+    public ResponseEntity<List<HibernateUser>> findAllHibernateUsers() {
+        return new ResponseEntity<>(hibernateUserRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User findUserById(@PathVariable Long id) {
-        return userService.findById(id);
+    public HibernateUser findUserById(@PathVariable Long id) {
+        return hibernateUserRepository.findById(id);
     }
 
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> userSearch(@ModelAttribute SearchCriteria search) {
-        return userService.search(search.getQuery());
+    public List<HibernateUser> userSearch(@ModelAttribute SearchCriteria search) {
+        return hibernateUserRepository.search(search.getQuery());
     }
 
 
@@ -62,9 +56,9 @@ public class UserRestController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public User savingUser(@RequestBody UserCreateRequest userCreateRequest) {
+    public HibernateUser savingUser(@RequestBody UserCreateRequest userCreateRequest) {
         //converters
-        User user = new User();
+        HibernateUser user = new HibernateUser();
         user.setGender(userCreateRequest.getGender());
         user.setName(userCreateRequest.getName());
         user.setSurname(userCreateRequest.getSurname());
@@ -74,16 +68,15 @@ public class UserRestController {
         user.setWeight(userCreateRequest.getWeight());
         user.setLogin(userCreateRequest.getLogin());
         user.setPassword(userCreateRequest.getPassword());
-
-        return userService.save(user);
+        return hibernateUserRepository.save(user);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public User updateUser(@PathVariable Long id,
-                           @RequestBody UserCreateRequest userCreateRequest) {
+    public HibernateUser updateUser(@PathVariable Long id,
+                                    @RequestBody UserCreateRequest userCreateRequest) {
 
-        User user = userService.findById(id);
+        HibernateUser user = hibernateUserRepository.findById(id);
 
         //converters
         user.setGender(userCreateRequest.getGender());
@@ -92,14 +85,16 @@ public class UserRestController {
         user.setBirthDate(userCreateRequest.getBirthDate());
         user.setChanged(new Timestamp(System.currentTimeMillis()));
         user.setWeight(userCreateRequest.getWeight());
-        return userService.update(user);
+        user.setLogin(userCreateRequest.getLogin());
+        user.setPassword(userCreateRequest.getPassword());
+        return hibernateUserRepository.update(user);
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public User updateUser(@RequestBody UserChangeRequest userChangeRequest) {
+    public HibernateUser updateUser(@RequestBody UserChangeRequest userChangeRequest) {
 
-        User user = userService.findById(userChangeRequest.getId());
+        HibernateUser user = hibernateUserRepository.findById(userChangeRequest.getId());
 
         //converters
         user.setGender(userChangeRequest.getGender());
@@ -108,8 +103,9 @@ public class UserRestController {
         user.setBirthDate(userChangeRequest.getBirthDate());
         user.setChanged(new Timestamp(System.currentTimeMillis()));
         user.setWeight(userChangeRequest.getWeight());
-        return userService.update(user);
-    }
 
+
+        return hibernateUserRepository.update(user);
+    }
 
 }
