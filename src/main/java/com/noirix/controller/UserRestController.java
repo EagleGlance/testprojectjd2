@@ -7,6 +7,9 @@ import com.noirix.domain.User;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
 import com.noirix.service.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,6 +62,11 @@ public class UserRestController {
     }
 
 
+    @ApiOperation(value = "Endpoint for creation users")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Auth-Token", defaultValue = "token", required = true, paramType = "header", dataType = "string"),
+            @ApiImplicitParam(name = "query", defaultValue = "query", required = false, paramType = "path", dataType = "string")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User savingUser(@RequestBody UserCreateRequest userCreateRequest) {
