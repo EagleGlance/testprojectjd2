@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Setter
@@ -28,6 +29,7 @@ public class HibernateRole {
     private String roleName;
 
     @ManyToOne
+    //@OneToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private HibernateUser user;

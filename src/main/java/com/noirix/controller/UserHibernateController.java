@@ -72,6 +72,7 @@ public class UserHibernateController {
         user.setPassword(userCreateRequest.getPassword());
 
         user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
+//        user.setRole(new HibernateRole("ROLE_ADMIN", user));
         return hibernateUserRepository.save(user);
     }
 
@@ -93,6 +94,7 @@ public class UserHibernateController {
         user.setPassword(userCreateRequest.getPassword());
 
         user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
+//        user.setRole(new HibernateRole("ROLE_ADMIN", user));
         return hibernateUserRepository.update(user);
     }
 
