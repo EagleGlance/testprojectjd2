@@ -3,6 +3,7 @@ package com.noirix.controller;
 import com.noirix.controller.request.SearchCriteria;
 import com.noirix.controller.request.UserChangeRequest;
 import com.noirix.controller.request.UserCreateRequest;
+import com.noirix.domain.SystemRoles;
 import com.noirix.domain.hibernate.HibernateRole;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
@@ -34,8 +35,11 @@ public class UserHibernateController {
     public final HibernateUserRepository hibernateUserRepository;
 
     @GetMapping
-    public ResponseEntity<List<HibernateUser>> findAllHibernateUsers() {
-        return new ResponseEntity<>(hibernateUserRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Object> findAllHibernateUsers() {
+        Object o = hibernateUserRepository.testHql();
+        //List<HibernateUser> all = hibernateUserRepository.findAll();
+
+        return new ResponseEntity<>(o, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -71,8 +75,8 @@ public class UserHibernateController {
         user.setLogin(userCreateRequest.getLogin());
         user.setPassword(userCreateRequest.getPassword());
 
-        user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
-//        user.setRole(new HibernateRole("ROLE_ADMIN", user));
+        //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
+        user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
         return hibernateUserRepository.save(user);
     }
 
@@ -93,8 +97,8 @@ public class UserHibernateController {
         user.setLogin(userCreateRequest.getLogin());
         user.setPassword(userCreateRequest.getPassword());
 
-        user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
-//        user.setRole(new HibernateRole("ROLE_ADMIN", user));
+        //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
+        user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
         return hibernateUserRepository.update(user);
     }
 
