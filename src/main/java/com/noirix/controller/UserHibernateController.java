@@ -7,10 +7,13 @@ import com.noirix.domain.SystemRoles;
 import com.noirix.domain.hibernate.HibernateRole;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
+import com.noirix.repository.impl.UserSpringDataRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -33,6 +37,7 @@ import java.util.List;
 public class UserHibernateController {
 
     public final HibernateUserRepository hibernateUserRepository;
+    public final UserSpringDataRepository userSpringDataRepository;
 
     @GetMapping
     public ResponseEntity<Object> findAllHibernateUsers(@ModelAttribute SearchCriteria criteria) {
@@ -41,6 +46,28 @@ public class UserHibernateController {
         List<HibernateUser> hibernateUsers = hibernateUserRepository.testCriteriaApi(criteria);
 
         return new ResponseEntity<>(hibernateUsers, HttpStatus.OK);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "Results page you want to retrieve (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported.")
+    })
+    @GetMapping("/spring-data/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Page<HibernateUser>> getUsersSpringData(@ApiIgnore Pageable pageable) {
+        return new ResponseEntity<>(userSpringDataRepository.findAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/spring-data/")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<HibernateUser>> testSpringData() {
+        return new ResponseEntity<>(userSpringDataRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
