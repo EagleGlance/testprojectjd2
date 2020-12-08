@@ -1,11 +1,14 @@
 package com.noirix.controller.request;
 
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Data
 public class SearchCriteria {
+    private Long userLowerId;
+
     private String query;
 
     private Long limit;
+
+    private Long offset;
 }

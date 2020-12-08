@@ -35,11 +35,12 @@ public class UserHibernateController {
     public final HibernateUserRepository hibernateUserRepository;
 
     @GetMapping
-    public ResponseEntity<Object> findAllHibernateUsers() {
-        Object o = hibernateUserRepository.testHql();
+    public ResponseEntity<Object> findAllHibernateUsers(@ModelAttribute SearchCriteria criteria) {
+        //Object o = hibernateUserRepository.testHql();
         //List<HibernateUser> all = hibernateUserRepository.findAll();
+        List<HibernateUser> hibernateUsers = hibernateUserRepository.testCriteriaApi(criteria);
 
-        return new ResponseEntity<>(o, HttpStatus.OK);
+        return new ResponseEntity<>(hibernateUsers, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
