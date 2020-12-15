@@ -68,7 +68,12 @@ public class UserHibernateController {
     @GetMapping("/spring-data/")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<HibernateUser> testSpringData() {
-        return new ResponseEntity<>(userSpringDataRepository.findUserWithFunctionCall(Gender.MALE.name(), "Slava", "qweqweqwe", "loginSlava"), HttpStatus.OK);
+        return new ResponseEntity<>(userSpringDataRepository.findUserWithFunctionCall(Gender.MALE.name(), "Slava", "qweqweqwe", "loginSlava", null, null, null, null), HttpStatus.OK);
+    }
+
+    @PostMapping("/spring-data/modifying")
+    public ResponseEntity<Object> testCreatingLinkRow() {
+        return new ResponseEntity<>(userSpringDataRepository.createSomeRow(46L, 3L), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

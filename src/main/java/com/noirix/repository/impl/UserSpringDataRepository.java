@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -31,14 +32,23 @@ public interface UserSpringDataRepository extends JpaRepository<HibernateUser, L
     @Query("select u.id, u.name from HibernateUser u")
     List<Object[]> getPartsOfUser();
 
-    /*TODO: check this annotation в четверг*/
-    @Modifying(flushAutomatically = true)
+    /*TODO: transaction manager configuration required*/
+    @Modifying
     @Query(value = "insert into l_user_goods(user_id, good_id) values (:user_id, :good_id)", nativeQuery = true)
     int createSomeRow(@Param("user_id") Long userId, @Param("good_id") Long goodId);
 
     /*call function case*/
-    @Query(value = "select * from smart_user_search(:gender, :firstName, :surname, :login)", nativeQuery = true)
-    HibernateUser findUserWithFunctionCall(String gender, String firstName, String surname, String login);
+    //@SuppressWarnings("")
+    @Query(value = "select * from smart_user_search(:gender, :firstName, :surname, :login, :id, :birthDate, :created, :changed)", nativeQuery = true)
+    HibernateUser findUserWithFunctionCall(@Param("gender") String gender,
+                                           @Param("firstName")String firstName,
+                                           @Param("surname")String surname,
+                                           @Param("login")String login,
+                                           @Param("id")Long id,
+                                           @Param("birthDate")Date birthDate,
+                                           @Param("created")Timestamp created,
+                                           @Param("changed")Timestamp changed);
+
 
 
 
