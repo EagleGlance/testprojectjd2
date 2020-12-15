@@ -36,6 +36,10 @@ public interface UserSpringDataRepository extends JpaRepository<HibernateUser, L
     @Query(value = "insert into l_user_goods(user_id, good_id) values (:user_id, :good_id)", nativeQuery = true)
     int createSomeRow(@Param("user_id") Long userId, @Param("good_id") Long goodId);
 
+    /*call function case*/
+    @Query(value = "select * from smart_user_search(:gender, :firstName, :surname, :login)", nativeQuery = true)
+    HibernateUser findUserWithFunctionCall(String gender, String firstName, String surname, String login);
+
 
 
 }

@@ -3,6 +3,7 @@ package com.noirix.controller;
 import com.noirix.controller.request.SearchCriteria;
 import com.noirix.controller.request.UserChangeRequest;
 import com.noirix.controller.request.UserCreateRequest;
+import com.noirix.domain.Gender;
 import com.noirix.domain.SystemRoles;
 import com.noirix.domain.hibernate.HibernateRole;
 import com.noirix.domain.hibernate.HibernateUser;
@@ -66,8 +67,8 @@ public class UserHibernateController {
 
     @GetMapping("/spring-data/")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<HibernateUser>> testSpringData() {
-        return new ResponseEntity<>(userSpringDataRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<HibernateUser> testSpringData() {
+        return new ResponseEntity<>(userSpringDataRepository.findUserWithFunctionCall(Gender.MALE.name(), "Slava", "qweqweqwe", "loginSlava"), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
