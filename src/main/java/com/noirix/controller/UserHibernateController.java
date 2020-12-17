@@ -3,6 +3,7 @@ package com.noirix.controller;
 import com.noirix.controller.request.SearchCriteria;
 import com.noirix.controller.request.UserChangeRequest;
 import com.noirix.controller.request.UserCreateRequest;
+import com.noirix.domain.Credentials;
 import com.noirix.domain.Gender;
 import com.noirix.domain.SystemRoles;
 import com.noirix.domain.hibernate.HibernateRole;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.sql.Timestamp;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -106,8 +106,9 @@ public class UserHibernateController {
         user.setCreated(new Timestamp(System.currentTimeMillis()));
         user.setChanged(new Timestamp(System.currentTimeMillis()));
         user.setWeight(userCreateRequest.getWeight());
-        user.setLogin(userCreateRequest.getLogin());
-        user.setPassword(userCreateRequest.getPassword());
+
+        user.setCredentials(new Credentials(userCreateRequest.getLogin(),
+                userCreateRequest.getPassword()));
 
         //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
         user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
@@ -128,8 +129,8 @@ public class UserHibernateController {
         user.setBirthDate(userCreateRequest.getBirthDate());
         user.setChanged(new Timestamp(System.currentTimeMillis()));
         user.setWeight(userCreateRequest.getWeight());
-        user.setLogin(userCreateRequest.getLogin());
-        user.setPassword(userCreateRequest.getPassword());
+        user.setCredentials(new Credentials(userCreateRequest.getLogin(),
+                userCreateRequest.getPassword()));
 
         //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
         user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
