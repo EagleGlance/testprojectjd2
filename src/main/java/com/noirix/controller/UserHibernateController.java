@@ -41,12 +41,12 @@ public class UserHibernateController {
     public final UserSpringDataRepository userSpringDataRepository;
 
     @GetMapping
-    public ResponseEntity<Object> findAllHibernateUsers(@ModelAttribute SearchCriteria criteria) {
+    public ResponseEntity<Object> findAllHibernateUsers(/*@ModelAttribute SearchCriteria criteria*/) {
         //Object o = hibernateUserRepository.testHql();
-        //List<HibernateUser> all = hibernateUserRepository.findAll();
-        List<HibernateUser> hibernateUsers = hibernateUserRepository.testCriteriaApi(criteria);
+        List<HibernateUser> all = hibernateUserRepository.findAll();
+        //List<HibernateUser> hibernateUsers = hibernateUserRepository.testCriteriaApi(criteria);
 
-        return new ResponseEntity<>(hibernateUsers, HttpStatus.OK);
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @ApiImplicitParams({

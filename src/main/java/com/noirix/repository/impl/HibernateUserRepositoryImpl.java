@@ -32,45 +32,29 @@ import java.util.Optional;
 @Log4j2
 public class HibernateUserRepositoryImpl implements HibernateUserRepository {
 
-//    private SessionFactory sessionFactory;
-//
-//    public HibernateUserRepositoryImpl(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
+    private SessionFactory sessionFactory;
+    //private EntityManager entityManager;
 
-    private EntityManager entityManager;
-
-    public HibernateUserRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
+    public HibernateUserRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+        //this.entityManager = entityManager;
     }
 
     @Override
     public List<HibernateUser> findAll() {
-//        try (Session session = sessionFactory.openSession()) {
-//
-//
-//            /*1. Change table name to mapped Entity: m_users -> HibernateUser u*/
-//            /*2. Change table column names to mapped Entity fields:
-//                  select * from m_users
-//                  select u from HibernateUser u
-//
-//                  select id, name, birth_date from m_users
-//                  select u.id, u.name, u.birthDate from HibernateUser u
-//                  */
-//
-//            String hqlQuery =
-//                    //"from HibernateUser";
-//                    "select u from HibernateUser u";
-//            //"select u.id, role.roleName from HibernateUser u left join u.role as role";
-//            //"";
-//            //"";
-//            //"";
-//
-//            return session.createQuery(hqlQuery, HibernateUser.class).list();
-////
-////            return Collections.singletonList(session.find(HibernateUser.class, 6L));
-//        }
-        return null;
+        try (Session session = sessionFactory.openSession()) {
+
+            //TODO: check this example after transactions configuration
+//            Transaction transaction = session.getTransaction();
+//            transaction.begin();
+            session.get(HibernateUser.class, 1L);
+
+            session.get(HibernateUser.class, 1L);
+
+            //transaction.commit();
+
+            return Collections.singletonList(new HibernateUser());
+        }
     }
 
     @Override
@@ -122,22 +106,23 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
     @Override
     public List<HibernateUser> testCriteriaApi(SearchCriteria criteria) {
 
-        //1. Get Builder for Criteria object
+        return null;
+        /*//1. Get Builder for Criteria object
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<HibernateUser> query = cb.createQuery(HibernateUser.class); //here select, where, orderBy, having
         Root<HibernateUser> root = query.from(HibernateUser.class); //here params  select * from m_users -> mapping
 
-        /*type of future params in prepared statement*/
+        *//*type of future params in prepared statement*//*
         ParameterExpression<String> param = cb.parameter(String.class);
         ParameterExpression<Long> userSearchParam = cb.parameter(Long.class);
 
-        /*Provide access to fields in class that mapped to columns*/
+        *//*Provide access to fields in class that mapped to columns*//*
         Expression<Long> id = root.get(HibernateUser_.id);
         Expression<String> name = root.get(HibernateUser_.name);
         Expression<String> surname = root.get(HibernateUser_.surname);
         //Expression<String> password = root.get(HibernateUser_.credentials).get(Credentials_.password);
 
-        /*SQL Query customizing*/
+        *//*SQL Query customizing*//*
         query.select(root)
                 .distinct(true)
                 .where(
@@ -161,7 +146,8 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
         TypedQuery<HibernateUser> resultQuery = entityManager.createQuery(query); //prepared statement on hql
         resultQuery.setParameter(param, StringUtils.join("%", criteria.getQuery(), "%"));
         resultQuery.setParameter(userSearchParam, criteria.getUserLowerId());
-        return resultQuery.getResultList();
+        return resultQuery.getResultList();*/
+
     }
 
     @Override
