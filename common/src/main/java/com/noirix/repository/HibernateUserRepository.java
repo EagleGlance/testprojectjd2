@@ -1,6 +1,5 @@
 package com.noirix.repository;
 
-import com.noirix.controller.request.SearchCriteria;
 import com.noirix.domain.hibernate.HibernateUser;
 
 import java.util.List;
@@ -14,5 +13,5 @@ public interface HibernateUserRepository extends CrudRepository<Long, HibernateU
 
     Object testHql();
 
-    List<HibernateUser> testCriteriaApi(SearchCriteria criteria);
+    List<HibernateUser> testCriteriaApi();
 }

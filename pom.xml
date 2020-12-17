@@ -11,10 +11,15 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <modules>
+        <module>common</module>
+        <module>api</module>
+    </modules>
+
     <groupId>com.noirix</groupId>
     <artifactId>TestMavenJD2Project</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <properties>
         <log4j>1.2.17</log4j>

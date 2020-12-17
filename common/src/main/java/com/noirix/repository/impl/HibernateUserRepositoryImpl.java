@@ -1,6 +1,5 @@
 package com.noirix.repository.impl;
 
-import com.noirix.controller.request.SearchCriteria;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
 import lombok.extern.log4j.Log4j2;
@@ -118,7 +117,7 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
     }
 
     @Override
-    public List<HibernateUser> testCriteriaApi(SearchCriteria criteria) {
+    public List<HibernateUser> testCriteriaApi() {
 
         return null;
         /*//1. Get Builder for Criteria object
