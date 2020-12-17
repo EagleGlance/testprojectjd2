@@ -31,6 +31,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalLong;
 
 @RestController
 @RequestMapping("/rest/users/hibernate")
@@ -43,7 +45,8 @@ public class UserHibernateController {
     @GetMapping
     public ResponseEntity<Object> findAllHibernateUsers(/*@ModelAttribute SearchCriteria criteria*/) {
         //Object o = hibernateUserRepository.testHql();
-        List<HibernateUser> all = hibernateUserRepository.findAll();
+        //List<HibernateUser> all = hibernateUserRepository.findAll();
+        Optional<HibernateUser> all = hibernateUserRepository.findByLogin("adsasdas");
         //List<HibernateUser> hibernateUsers = hibernateUserRepository.testCriteriaApi(criteria);
 
         return new ResponseEntity<>(all, HttpStatus.OK);

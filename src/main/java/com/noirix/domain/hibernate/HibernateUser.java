@@ -6,9 +6,12 @@ import com.noirix.domain.Credentials;
 import com.noirix.domain.Gender;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -35,6 +38,8 @@ import java.util.Set;
         "roles", "goods"
 })
 @Table(name = "m_users")
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Cacheable
 public class HibernateUser {
 
     @Id

@@ -1,30 +1,17 @@
 package com.noirix.repository.impl;
 
 import com.noirix.controller.request.SearchCriteria;
-import com.noirix.domain.Credentials_;
 import com.noirix.domain.hibernate.HibernateUser;
-import com.noirix.domain.hibernate.HibernateUser_;
 import com.noirix.repository.HibernateUserRepository;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.context.annotation.Primary;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.ParameterExpression;
-import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -42,19 +29,24 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
 
     @Override
     public List<HibernateUser> findAll() {
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+        //TODO: check this example after transactions configuration
+        session.beginTransaction();
+        System.out.println(session.get(HibernateUser.class, 1L));
+        System.out.println(session.get(HibernateUser.class, 1L));
+        session.getTransaction().commit();
+        session.close();
 
-            //TODO: check this example after transactions configuration
-//            Transaction transaction = session.getTransaction();
-//            transaction.begin();
-            session.get(HibernateUser.class, 1L);
 
-            session.get(HibernateUser.class, 1L);
+        Session session1 = sessionFactory.openSession();
+        Transaction transaction1 = session1.beginTransaction();
+        session1.get(HibernateUser.class, 1L);
+        session1.get(HibernateUser.class, 1L);
+        transaction1.commit();
+        session1.close();
 
-            //transaction.commit();
+        return Collections.singletonList(new HibernateUser());
 
-            return Collections.singletonList(new HibernateUser());
-        }
     }
 
     @Override
@@ -64,7 +56,29 @@ public class HibernateUserRepositoryImpl implements HibernateUserRepository {
 
     @Override
     public Optional<HibernateUser> findByLogin(String login) {
-        return Optional.empty();
+        Session session = sessionFactory.openSession();
+        //TODO: fix cache provider
+        session.beginTransaction();
+
+        List<HibernateUser> resultList = session.createQuery("select u from HibernateUser u where u.id = 1L", HibernateUser.class)
+                .setCacheable(true)
+                .getResultList();
+
+        session.get(HibernateUser.class, 1L);
+        session.getTransaction().commit();
+        session.close();
+
+
+        Session session1 = sessionFactory.openSession();
+        Transaction transaction1 = session1.beginTransaction();
+        resultList = session1.createQuery("select u from HibernateUser u where u.id = 1L", HibernateUser.class)
+                .setCacheable(true)
+                .getResultList();
+
+        transaction1.commit();
+        session1.close();
+
+        return Optional.of(new HibernateUser());
     }
 
     @Override

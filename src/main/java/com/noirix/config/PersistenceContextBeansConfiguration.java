@@ -54,8 +54,17 @@ public class PersistenceContextBeansConfiguration {
         Properties properties = new Properties();
 
         // See: application.properties
+        properties.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
         properties.put("hibernate.show_sql", "true");
+        properties.put("hibernate.connection.characterEncoding", "utf8mb4");
+        properties.put("hibernate.connection.CharSet", "utf8mb4");
+        properties.put("hibernate.connection.useUnicode", "true");
         properties.put("current_session_context_class", "org.springframework.orm.hibernate5.SpringSessionContext");
+        properties.put("hibernate.javax.cache.provider", "org.ehcache.jsr107.EhcacheCachingProvider");
+        properties.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
+        properties.put("hibernate.cache.use_second_level_cache", "true");
+        properties.put("hibernate.cache.ehcache.missing_cache_strategy", "create");
+        properties.put("hibernate.cache.use_query_cache", "true");
         return properties;
     }
 }
