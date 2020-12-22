@@ -1,5 +1,8 @@
 package com.noirix.config;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +14,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 public class ApplicationBeans {
 
@@ -36,5 +40,21 @@ public class ApplicationBeans {
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
                 .build();
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager("goods");
+        cacheManager.setCaffeine(cacheProperties());
+        return cacheManager;
+    }
+
+    public Caffeine<Object, Object> cacheProperties() {
+        return Caffeine.newBuilder()
+                .initialCapacity(10)
+                .maximumSize(50)
+                .expireAfterAccess(10, TimeUnit.SECONDS)
+                .weakKeys()
+                .recordStats();
     }
 }
