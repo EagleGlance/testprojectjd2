@@ -10,10 +10,12 @@ import com.noirix.domain.hibernate.HibernateRole;
 import com.noirix.domain.hibernate.HibernateUser;
 import com.noirix.repository.HibernateUserRepository;
 import com.noirix.repository.impl.UserSpringDataRepository;
+import com.noirix.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -42,6 +44,9 @@ public class UserHibernateController {
 
     public final HibernateUserRepository hibernateUserRepository;
     public final UserSpringDataRepository userSpringDataRepository;
+    public final UserService userService;
+
+    public final ConversionService conversionService;
 
     @GetMapping
     public ResponseEntity<Object> findAllHibernateUsers(/*@ModelAttribute SearchCriteria criteria*/) {
@@ -103,21 +108,24 @@ public class UserHibernateController {
     @ResponseStatus(HttpStatus.CREATED)
     public HibernateUser savingUser(@RequestBody UserCreateRequest userCreateRequest) {
         //converters
-        HibernateUser user = new HibernateUser();
-        user.setGender(userCreateRequest.getGender());
-        user.setName(userCreateRequest.getName());
-        user.setSurname(userCreateRequest.getSurname());
-        user.setBirthDate(userCreateRequest.getBirthDate());
-        user.setCreated(new Timestamp(System.currentTimeMillis()));
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setWeight(userCreateRequest.getWeight());
+//        HibernateUser user = new HibernateUser();
+//        user.setGender(userCreateRequest.getGender());
+//        user.setName(userCreateRequest.getName());
+//        user.setSurname(userCreateRequest.getSurname());
+//        user.setBirthDate(userCreateRequest.getBirthDate());
+//        user.setCreated(new Timestamp(System.currentTimeMillis()));
+//        user.setChanged(new Timestamp(System.currentTimeMillis()));
+//        user.setWeight(userCreateRequest.getWeight());
+//
+//        user.setCredentials(new Credentials(userCreateRequest.getLogin(),
+//                userCreateRequest.getPassword()));
+//
+//        //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
+//        user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
 
-        user.setCredentials(new Credentials(userCreateRequest.getLogin(),
-                userCreateRequest.getPassword()));
+        HibernateUser hibernateUser = conversionService.convert(userCreateRequest, HibernateUser.class);
 
-        //user.setRoles(Collections.singleton(new HibernateRole("ROLE_ADMIN", user)));
-        user.setRole(new HibernateRole(SystemRoles.ROLE_ADMIN, user));
-        return hibernateUserRepository.save(user);
+        return userSpringDataRepository.save(hibernateUser);
     }
 
     @PutMapping("/{id}")
@@ -162,13 +170,18 @@ public class UserHibernateController {
 
     @PostMapping("/test-tx")
     @ResponseStatus(HttpStatus.OK)
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public HibernateUser testTx() {
-        userSpringDataRepository.createSomeRow(1L, 3L);
+        //userService.createSomeRow(1L, 3L);
+        doSomething();
 
         //throw new RuntimeException();
 
         return userSpringDataRepository.findById(1L).get();
+    }
+
+    private void doSomething() {
+        userService.createSomeRow(1L, 3L);
     }
 
 }

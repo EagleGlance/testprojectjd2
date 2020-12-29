@@ -93,24 +93,24 @@ public class UserController {
         return result;
     }
 
-    @PostMapping
-    public ModelAndView createUser(@ModelAttribute UserCreateRequest userCreateRequest) {
-
-        //converters
-        User user = new User();
-        user.setGender(userCreateRequest.getGender());
-        user.setName(userCreateRequest.getName());
-        user.setSurname(userCreateRequest.getSurname());
-        user.setBirthDate(userCreateRequest.getBirthDate());
-        userService.save(user);
-
-        ModelAndView result = new ModelAndView();
-
-        result.setViewName(USER_PAGE);
-        result.addObject(USERS_LIST_ATTRIBUTE, Collections.singletonList(userService.findAll()));
-
-        return result;
-    }
+//    @PostMapping
+//    public ModelAndView createUser(@ModelAttribute UserCreateRequest userCreateRequest) {
+//
+//        //converters
+//        User user = new User();
+//        user.setGender(userCreateRequest.getGender());
+//        user.setName(userCreateRequest.getName());
+//        user.setSurname(userCreateRequest.getSurname());
+//        user.setBirthDate(userCreateRequest.getBirthDate());
+//        userService.save(user);
+//
+//        ModelAndView result = new ModelAndView();
+//
+//        result.setViewName(USER_PAGE);
+//        result.addObject(USERS_LIST_ATTRIBUTE, Collections.singletonList(userService.findAll()));
+//
+//        return result;
+//    }
 
 
 }

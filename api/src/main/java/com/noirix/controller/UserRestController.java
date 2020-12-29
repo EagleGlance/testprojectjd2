@@ -35,81 +35,81 @@ public class UserRestController {
     public final UserService userService;
     public final HibernateUserRepository hibernateUserRepository;
 
-    @GetMapping
-    public ResponseEntity<List<User>> findAllUsers() {
-
-        //return ResponseEntity.ok(userService.findAll());
-        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User findUserById(@PathVariable Long id) {
-        return userService.findById(id);
-    }
-
-    @GetMapping("/search")
-    @ResponseStatus(HttpStatus.OK)
-    public List<User> userSearch(@ModelAttribute SearchCriteria search) {
-        return userService.search(search.getQuery());
-    }
-
-
-    @ApiOperation(value = "Endpoint for creation users")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "Auth-Token", defaultValue = "token", required = true, paramType = "header", dataType = "string"),
-            @ApiImplicitParam(name = "query", defaultValue = "query", required = false, paramType = "path", dataType = "string")
-    })
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public User savingUser(@RequestBody UserCreateRequest userCreateRequest) {
-        //converters
-        User user = new User();
-        user.setGender(userCreateRequest.getGender());
-        user.setName(userCreateRequest.getName());
-        user.setSurname(userCreateRequest.getSurname());
-        user.setBirthDate(userCreateRequest.getBirthDate());
-        user.setCreated(new Timestamp(System.currentTimeMillis()));
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setWeight(userCreateRequest.getWeight());
-        user.setLogin(userCreateRequest.getLogin());
-        user.setPassword(userCreateRequest.getPassword());
-
-        return userService.save(user);
-    }
-
-    @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public User updateUser(@PathVariable Long id,
-                           @RequestBody UserCreateRequest userCreateRequest) {
-
-        User user = userService.findById(id);
-
-        //converters
-        user.setGender(userCreateRequest.getGender());
-        user.setName(userCreateRequest.getName());
-        user.setSurname(userCreateRequest.getSurname());
-        user.setBirthDate(userCreateRequest.getBirthDate());
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setWeight(userCreateRequest.getWeight());
-        return userService.update(user);
-    }
-
-    @PutMapping
-    @ResponseStatus(HttpStatus.OK)
-    public User updateUser(@RequestBody UserChangeRequest userChangeRequest) {
-
-        User user = userService.findById(userChangeRequest.getId());
-
-        //converters
-        user.setGender(userChangeRequest.getGender());
-        user.setName(userChangeRequest.getName());
-        user.setSurname(userChangeRequest.getSurname());
-        user.setBirthDate(userChangeRequest.getBirthDate());
-        user.setChanged(new Timestamp(System.currentTimeMillis()));
-        user.setWeight(userChangeRequest.getWeight());
-        return userService.update(user);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<User>> findAllUsers() {
+//
+//        //return ResponseEntity.ok(userService.findAll());
+//        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public User findUserById(@PathVariable Long id) {
+//        return userService.findById(id);
+//    }
+//
+//    @GetMapping("/search")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<User> userSearch(@ModelAttribute SearchCriteria search) {
+//        return userService.search(search.getQuery());
+//    }
+//
+//
+//    @ApiOperation(value = "Endpoint for creation users")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "Auth-Token", defaultValue = "token", required = true, paramType = "header", dataType = "string"),
+//            @ApiImplicitParam(name = "query", defaultValue = "query", required = false, paramType = "path", dataType = "string")
+//    })
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public User savingUser(@RequestBody UserCreateRequest userCreateRequest) {
+//        //converters
+//        User user = new User();
+//        user.setGender(userCreateRequest.getGender());
+//        user.setName(userCreateRequest.getName());
+//        user.setSurname(userCreateRequest.getSurname());
+//        user.setBirthDate(userCreateRequest.getBirthDate());
+//        user.setCreated(new Timestamp(System.currentTimeMillis()));
+//        user.setChanged(new Timestamp(System.currentTimeMillis()));
+//        user.setWeight(userCreateRequest.getWeight());
+//        user.setLogin(userCreateRequest.getLogin());
+//        user.setPassword(userCreateRequest.getPassword());
+//
+//        return userService.save(user);
+//    }
+//
+//    @PutMapping("/{id}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public User updateUser(@PathVariable Long id,
+//                           @RequestBody UserCreateRequest userCreateRequest) {
+//
+//        User user = userService.findById(id);
+//
+//        //converters
+//        user.setGender(userCreateRequest.getGender());
+//        user.setName(userCreateRequest.getName());
+//        user.setSurname(userCreateRequest.getSurname());
+//        user.setBirthDate(userCreateRequest.getBirthDate());
+//        user.setChanged(new Timestamp(System.currentTimeMillis()));
+//        user.setWeight(userCreateRequest.getWeight());
+//        return userService.update(user);
+//    }
+//
+//    @PutMapping
+//    @ResponseStatus(HttpStatus.OK)
+//    public User updateUser(@RequestBody UserChangeRequest userChangeRequest) {
+//
+//        User user = userService.findById(userChangeRequest.getId());
+//
+//        //converters
+//        user.setGender(userChangeRequest.getGender());
+//        user.setName(userChangeRequest.getName());
+//        user.setSurname(userChangeRequest.getSurname());
+//        user.setBirthDate(userChangeRequest.getBirthDate());
+//        user.setChanged(new Timestamp(System.currentTimeMillis()));
+//        user.setWeight(userChangeRequest.getWeight());
+//        return userService.update(user);
+//    }
 
 
 }

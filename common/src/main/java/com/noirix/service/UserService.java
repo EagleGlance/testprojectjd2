@@ -1,18 +1,21 @@
 package com.noirix.service;
 
-import com.noirix.domain.User;
+import com.noirix.domain.hibernate.HibernateUser;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<HibernateUser> findAll();
 
-    User save(User user);
+    HibernateUser save(HibernateUser HibernateUser);
 
-    User update(User user);
+    HibernateUser update(HibernateUser HibernateUser);
 
-    User findById(Long userId);
+    HibernateUser findById(Long HibernateUserId);
 
-    List<User> search(String query);
+    List<HibernateUser> search(String query);
+
+    int createSomeRow(Long userId, Long goodId);
 }

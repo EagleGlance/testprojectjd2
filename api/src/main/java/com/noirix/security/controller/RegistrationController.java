@@ -28,7 +28,7 @@ public class RegistrationController {
 
     private final PasswordEncoder passwordEncoder;
 
-    @ApiOperation(value = "Endpoint for registration users by 6 params")
+/*    @ApiOperation(value = "Endpoint for registration users by 6 params")
     @PostMapping
     public ResponseEntity<Map<String, Object>> registration(@RequestBody UserCreateRequest userCreateRequest) {
         //converters
@@ -50,5 +50,5 @@ public class RegistrationController {
         result.put("login", savedUser.getLogin());
 
         return new ResponseEntity<>(result, HttpStatus.CREATED);
-    }
+    }*/
 }
