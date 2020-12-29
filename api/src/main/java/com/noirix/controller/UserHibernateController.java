@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -98,6 +99,7 @@ public class UserHibernateController {
 //            @ApiImplicitParam(name = "query", defaultValue = "query", required = false, paramType = "path", dataType = "string")
 //    })
     @PostMapping
+    @Transactional
     @ResponseStatus(HttpStatus.CREATED)
     public HibernateUser savingUser(@RequestBody UserCreateRequest userCreateRequest) {
         //converters
@@ -156,6 +158,17 @@ public class UserHibernateController {
 
 
         return hibernateUserRepository.update(user);
+    }
+
+    @PostMapping("/test-tx")
+    @ResponseStatus(HttpStatus.OK)
+    @Transactional(rollbackFor = Exception.class)
+    public HibernateUser testTx() {
+        userSpringDataRepository.createSomeRow(1L, 3L);
+
+        //throw new RuntimeException();
+
+        return userSpringDataRepository.findById(1L).get();
     }
 
 }
