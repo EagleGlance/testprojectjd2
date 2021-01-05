@@ -1,4 +1,7 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
   jpa:
     properties:
       javax.persistence.validation.mode: none
@@ -33,9 +36,13 @@ spring:
 
 amazon:
   images:
-    s3: 123123213
-    token: someToken
-    password: password
+    s3: htpprojectimages
+    accessKeyId: someToken
+    secretKey: password
+    bucket: finalprojectjd2
+    serverUrl: "https://htpprojectimages.s3.eu-central-1.amazonaws.com"
+    userFolder: users
+    region: eu-central-1
 
 ---
 

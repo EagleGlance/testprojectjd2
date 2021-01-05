@@ -69,6 +69,9 @@ public class HibernateUser {
     @Column
     private Float weight;
 
+    @Column(name = "photo_link")
+    private String photoLink;
+
 //    @Column
 //    private String login;
 //
